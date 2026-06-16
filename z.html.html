@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>بوابة شهادات الطلاب</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+      background: linear-gradient(135deg, #0d3b6e 0%, #1a5276 50%, #0d3b6e 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      padding: 50px 40px;
+      max-width: 520px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .logo {
+      margin-bottom: 10px;
+      font-size: 60px;
+    }
+
+    h1 {
+      color: #0d3b6e;
+      font-size: 26px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      color: #666;
+      font-size: 15px;
+      margin-bottom: 35px;
+    }
+
+    label {
+      display: block;
+      font-size: 15px;
+      color: #333;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+
+    .input-wrapper {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 16px 20px;
+      font-size: 20px;
+      border: 2px solid #dce3ec;
+      border-radius: 12px;
+      text-align: center;
+      letter-spacing: 3px;
+      color: #0d3b6e;
+      font-weight: 700;
+      transition: border-color 0.3s;
+      outline: none;
+      direction: ltr;
+    }
+
+    input[type="text"]:focus {
+      border-color: #1a5276;
+      box-shadow: 0 0 0 4px rgba(26,82,118,0.12);
+    }
+
+    button {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, #0d3b6e, #1a5276);
+      color: #fff;
+      font-size: 18px;
+      font-weight: 700;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+      letter-spacing: 1px;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(13,59,110,0.35);
+    }
+
+    button:active { transform: translateY(0); }
+
+    .result {
+      margin-top: 28px;
+      padding: 20px;
+      border-radius: 14px;
+      display: none;
+    }
+
+    .result.success {
+      background: #eaf4ff;
+      border: 1.5px solid #a8d4f5;
+    }
+
+    .result.error {
+      background: #fff0f0;
+      border: 1.5px solid #f5a8a8;
+    }
+
+    .student-name {
+      font-size: 20px;
+      font-weight: 700;
+      color: #0d3b6e;
+      margin-bottom: 6px;
+    }
+
+    .student-id {
+      color: #555;
+      font-size: 14px;
+      margin-bottom: 18px;
+    }
+
+    .view-btn {
+      display: inline-block;
+      background: linear-gradient(135deg, #27ae60, #1e8449);
+      color: #fff;
+      padding: 13px 32px;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: transform 0.15s, box-shadow 0.15s;
+      margin: 4px;
+    }
+
+    .view-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(39,174,96,0.35);
+    }
+
+    .dl-btn {
+      display: inline-block;
+      background: linear-gradient(135deg, #e67e22, #ca6f1e);
+      color: #fff;
+      padding: 13px 32px;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: transform 0.15s, box-shadow 0.15s;
+      margin: 4px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .dl-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(230,126,34,0.35);
+    }
+
+    .error-msg {
+      color: #c0392b;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .footer {
+      margin-top: 30px;
+      color: #bbb;
+      font-size: 12px;
+    }
+
+    .icon { font-size: 40px; margin-bottom: 8px; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="logo">🎓</div>
+  <h1>بوابة شهادات الطلاب</h1>
+  <p class="subtitle">ابتدائية تحفيظ القران الكريم بالعويقيلة</p>
+  <p class="subtitle" style="margin-top:-20px;">أدخل رقم هوية الطالب لتنزيل شهادته</p>
+
+  <label for="idInput">رقم الهوية الوطنية</label>
+  <div class="input-wrapper">
+    <input type="text" id="idInput" placeholder="1xxxxxxxxx" maxlength="10" inputmode="numeric"
+      onkeydown="if(event.key==='Enter') search()" />
+  </div>
+  <button onclick="search()">🔍 &nbsp; عرض الشهادة</button>
+
+  <div class="result" id="result"></div>
+
+  <div class="footer">جميع البيانات سرية ومخصصة لأولياء الأمور فقط</div>
+</div>
+
+<script>
+  const students = [
+    { name: "أحمد عسكر بن مشحن العنزي",       id: "1190554558", fileId: "1LPZsBpOxb2C5xCY862g53ZMoi0WAc4O4" },
+    { name: "سلطان فلاح عقيل بن عايش",         id: "1189508003", fileId: "1tvKDzuYFFhTwCjAHuRF5fjHL2pUY7e3f" },
+    { name: "تركي بسام تركي الشمري",            id: "1187342736", fileId: "1_vHn8zMCx1H3iHXPzvsoy6TY07uWdfuy" },
+    { name: "عمر سعود بن غازي الحربي",          id: "1188041873", fileId: "10ZRZzEy2X6io0Bu5dty4JvSlG89ENwTz" },
+    { name: "عبدالرحمن احمد تاجر العنزي",       id: "1207330794", fileId: "1JuYD7-WSG4IjCGmjgOLqXicTP0DTP6b1" },
+    { name: "خالد عايد دغيم البناقي",           id: "1189889221", fileId: "1qglRqKOFnICIZp1fIYyEZjR-b8BPy9_g" },
+    { name: "جلاب خالد جلاب العنزي",            id: "1187328040", fileId: "1eNaQaJ6PCpCX-YKwOao_Vj_TqaLxAD5p" },
+    { name: "زيد مشعان ثاني العنزي",            id: "1189212499", fileId: "1c_FpgWrJ33teVqa3j8tMer3JbVC9KmMm" },
+    { name: "هتان فايز بنيان الشمري",           id: "1191604360", fileId: "1fzI-7qKSKGLfuLpd9hmpxtfgcu_iB7Wk" },
+    { name: "عمر محمد طريخم العنزي",            id: "1187353352", fileId: "1Kw-SugyzkkXbUQdMSSjSbjxnYsWE73XM" },
+    { name: "فارس ماجد بن فارس السبيعي",        id: "1188223893", fileId: "1dCIvI-OIraGms9-ojiNN3S00dHXors4Y" },
+    { name: "عمر نداء هزاع الشمري",             id: "1191778958", fileId: "1LYmuLyd_i9YkjvCCkwcZ8BDrg08tICwn" },
+    { name: "غيث سليمان بن خضير البناقي",       id: "1189842477", fileId: "1o690x5cPpANbQ4ADjFimaJWdb4gi2GkG" },
+    { name: "سالم بن زايد بن جلاب العنزي",      id: "1191390572", fileId: "1A5yNE4tUgx_EHgBODXdOFu7jEIg6unwo" },
+    { name: "عبدالمالك مبارك نزال البناقي",     id: "1190110690", fileId: "1tF4PTUUSSfazIrGfQ65ckbNMTZetxw7M" },
+    { name: "راشد سلمان عطالله البناقي",        id: "1188506883", fileId: "1fdndymesjkwB4OoF2qe417Jik-M0HK2K" },
+    { name: "سمير ماجد سمير الشمري",            id: "1192686044", fileId: "1jp6j_9twEmvBaWxelyrK8bg5AafZg7lH" },
+    { name: "محمد نايف مرضي الشمري",            id: "1188316143", fileId: "1Nyj_WjdWaYH46w0DIZFhr9nKaSJcuMlP" },
+    { name: "سعد حسن مهدي الشمري",              id: "1190266344", fileId: "1_AlaLabpUShorrTvYUAbtwPl-oClTcBS" },
+    { name: "عايد فارس عايد الشمري",            id: "1188383846", fileId: "1WY7gDzpNkl2nUIhdp6f3bioricTlHASf" },
+    { name: "مشهور محمد مسند الشمري",           id: "1189973793", fileId: "1fEI-wY5bepAFiOVVBr4izWgsOELAnSIk" },
+    { name: "ريان شالح بن الادهم الشمري",       id: "1186623367", fileId: "1I_5ddkcy5XL1y_yFyl25-tI-SUlZLbnq" },
+    { name: "سند سالم بن بعيجان العنزي",        id: "1189857525", fileId: "1Q2uotRME6RLib1KKEeEr11OMxiFwlk-Y" },
+    { name: "فاضل هايل فاضل الرويلي",           id: "1190696458", fileId: "1BlrLSp4jkAWihNo9nHoRjoHZuntpRg2F" },
+    { name: "نواف نمر حامد الشمري",             id: "1186499230", fileId: "1q0Ri8pu5twwjajfBcE0_bCkjXOzf8JPA" },
+    { name: "امجد حمدان حامد الشمري",           id: "1191803830", fileId: "1ND84hXuu2X7R2yu_tGZ-eGS0t-pxo0-5" },
+    { name: "عمر هادي زيد العنزي",              id: "1189661943", fileId: "1eKug34BXFpKl3FmOrSRxfw1V55M4T_eO" },
+  ];
+
+  function downloadCert(fileId) {
+    // استخدام رابط المعاينة المباشر يعمل على جميع المتصفحات بما فيها Safari
+    const previewUrl = `https://drive.google.com/file/d/${fileId}/preview`;
+    window.open(previewUrl, '_blank');
+  }
+
+  function search() {
+    const input = document.getElementById('idInput').value.trim();
+    const resultDiv = document.getElementById('result');
+
+    if (!input) {
+      resultDiv.className = 'result error';
+      resultDiv.style.display = 'block';
+      resultDiv.innerHTML = '<div class="error-msg">⚠️ يرجى إدخال رقم الهوية</div>';
+      return;
+    }
+
+    const student = students.find(s => s.id === input);
+
+    if (student) {
+      resultDiv.className = 'result success';
+      resultDiv.style.display = 'block';
+      resultDiv.innerHTML = `
+        <div class="icon">✅</div>
+        <div class="student-name">${student.name}</div>
+        <div class="student-id">رقم الهوية: ${student.id}</div>
+        <button class="dl-btn" onclick="downloadCert('${student.fileId}')">⬇️ &nbsp; تنزيل الشهادة</button>
+      `;
+    } else {
+      resultDiv.className = 'result error';
+      resultDiv.style.display = 'block';
+      resultDiv.innerHTML = `
+        <div class="icon">❌</div>
+        <div class="error-msg">رقم الهوية غير موجود في السجل<br/><small style="font-weight:400;color:#888">تأكد من إدخال الرقم بشكل صحيح</small></div>
+      `;
+    }
+  }
+</script>
+</body>
+</html>
